@@ -1,3 +1,3 @@
-== Feedblocks
+# Feedblocks
 
 A simple feed aggregator
