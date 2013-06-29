@@ -23,7 +23,11 @@ app.get '/api/feed/:url', (req, res) ->
             meta = m
         .on 'readable', () ->
             while item = do @read
-                items.push title: item.title, summary: item.summary
+                items.push
+                    title:item.title
+                    summary:item.summary
+                    link:item.link
+            return # do not return while expression
         .on 'end', ->
             res.json
                 title: meta.title

@@ -1,17 +1,24 @@
 div Index
     div Popular feeds:
-        a(href="",ng-repeat="feed in popular",
-            ng-bind="feed.title",ng-click="AddFeed(feed.link)")
+        a(  href=""
+            ng-repeat="feed in popular"
+            ng-bind="feed.title"
+            ng-click="AddFeed(feed.link)")
     input(ng-model="feedSearch")
-    button(ng-click="AddFeed(feedSearch)",
+    button(
+        ng-click="AddFeed(feedSearch)"
         ng-disabled="!feedSearch") Add feed
     div(ng-repeat="feed in feeds")
         h3
-            a(target="_blank",
-                ng-href="{{feed.link}}",
-                ng-bind="feed.title")
+            a(  target="_blank"
+                ng-href="{{feed.link}}"
+                ng-bind-html-unsafe="feed.title")
             &nbsp;
-            a(href="",ng-click="feeds.splice($index,1)") &times;
+            a(  href=""
+                ng-click="feeds.splice($index,1)") &times;
         div(ng-repeat="item in feed.items")
-            h4(ng-bind="item.title")
+            h4
+                a(  target="_blank"
+                    ng-href="{{item.link}}"
+                    ng-bind-html-unsafe="item.title")
             p(ng-bind-html-unsafe="item.summary")
