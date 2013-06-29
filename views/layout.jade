@@ -1,13 +1,13 @@
-doctype 5
-html
-    head
-        title Feedblocks
-        base(href="/")
-        script(src="js/libs/jquery.js")
-        script(src="js/libs/angular.js")
-        script(src="js/libs/angular-resource.js")
-        script(src="js/main.js")
-        link(rel="stylesheet",href="css/main.css")
-    body(ng-app="feedblocks")
-        h1 Feedblocks
-        div(ng-view)
+doctype html
+html(ng-app="feedblocks")
+  head
+    title Feedblocks
+    base(href="/")
+    link(rel="stylesheet",href="css/main.css")
+  body
+    h1 Feedblocks
+    div(ng-view)
+    script(src="js/libs/jquery.js")
+    script(src="js/libs/angular.js")
+    script(src="js/libs/angular-resource.js")
+    script(src="js/main.js")
