@@ -1,0 +1,5 @@
+.*.swp
+*.js
+*.map
+node_modules/
+!public/js/libs/*.js
