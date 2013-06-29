@@ -1,5 +1,6 @@
 express = require "express"
 coffee = require "connect-coffee-script"
+stylus = require "stylus"
 feed = require "feedparser"
 request = require "request"
 
@@ -10,7 +11,8 @@ app.set "views", "views"
 app.set "view engine", "jade"
 
 app.use coffee src: pub, sourceMap: true
-app.use express.static "public"
+app.use stylus.middleware src: pub, dest: pub
+app.use express.static pub
 
 app.get '/api/feed/:url', (req, res) ->
     meta = null
@@ -36,7 +38,7 @@ app.get '/api/feed/:url', (req, res) ->
 
 app.get '/views/:view', (req, res) ->
     res.render req.params.view
-app.get '*', (req, res) ->
+app.get '/', (req, res) ->
     res.render "layout"
 
 app.listen 8080
