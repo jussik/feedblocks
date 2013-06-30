@@ -13,8 +13,9 @@ default-font()
   font-size inherit
   font-family Open Sans, sans-serif
 
-link(color)
-  color color
+link(col)
+  color col
+  transition color 0.2s
   cursor pointer
   &:hover
     color darken(@color, 25%)

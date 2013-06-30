@@ -26,6 +26,5 @@ angular.module('feedblocks')
         $scope.feedError = "Could not fetch feed"
       else
         $scope.feeds.push feed
-      $timeout (-> delete $scope.feedError), 1000
       $scope.feedLoading = false
 

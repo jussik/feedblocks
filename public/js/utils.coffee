@@ -5,3 +5,4 @@ angular.module('feedblocks')
     elem.on 'click', (event) ->
       if not elem.is '.disabled'
         scope.$apply(-> fn scope, $event: event)
+    elem.addClass 'triangle'

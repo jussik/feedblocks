@@ -25,6 +25,9 @@ h2
 h3
   font-size 130%
 
+p
+  margin 0
+
 a
   link $link-color
   text-decoration none
@@ -40,8 +43,13 @@ button
   link $link-color
 
 input
+  default-font()
+  font-size 80%
   margin 0
   border 1px solid $border-color
+  border-radius 4px
+  padding 2px
+  box-shadow inset 0 0 8px fade($border-color, 50%)
 
 input:invalid
   border auto

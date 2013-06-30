@@ -13,19 +13,29 @@ form.middle(name="addFeed")
   button(
     ng-disabled="!feedSearch||!addFeed.$valid"
     ng-click="AddFeed()") Add feed
-  span(ng-show="feedLoading") Loading...
-  span(ng-show="feedError",ng-bind="feedError")
-div.feed(ng-repeat="feed in feeds")
-  h2
-    a(target="_blank"
-      ng-hide="feed.error"
-      ng-href="{{feed.link}}"
-      ng-bind-html-unsafe="feed.title")
+  span.error(ng-show="feedError")
     &nbsp;
-    button.remove(href,ng-click="feeds.splice($index,1)") &times;
-  div.item(ng-repeat="item in feed.items")
-    h3
+    span(ng-bind="feedError")
+    &nbsp;
+    span.remove(ng-click="feedError=''") &times;
+div#feeds
+  div.feed(ng-repeat="feed in feeds")
+    h2
       a(target="_blank"
-        ng-href="{{item.link}}"
-        ng-bind-html-unsafe="item.title")
-    p(ng-bind-html-unsafe="item.summary")
+        ng-hide="feed.error"
+        ng-href="{{feed.link}}"
+        ng-bind-html-unsafe="feed.title")
+      &nbsp;
+      button.remove(href,ng-click="feeds.splice($index,1)") &times;
+    div.items
+      div.item(ng-repeat="item in feed.items",masonry)
+        h3
+          span.triangle.right(
+            ng-class="{down:item.open}"
+            ng-click="item.open=!item.open")
+          a.itemLink(target="_blank"
+            ng-href="{{item.link}}"
+            ng-bind-html-unsafe="item.title")
+        p(ng-bind-html-unsafe="item.summary"
+          ng-show="item.open"
+          ng-animate='drop')
