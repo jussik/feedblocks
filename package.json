@@ -6,6 +6,7 @@
   "dependencies": {
     "express":"3.x",
     "connect-coffee-script":"*",
+    "mongoose":"*",
     "jade":"*",
     "stylus":"*",
     "feedparser":"*",

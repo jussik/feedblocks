@@ -1,23 +1,20 @@
 doctype html
 div Popular feeds:
-  a.popular(
-    href
-    target="_blank"
+  button.popular(
     ng-repeat="feed in popular"
     ng-bind="feed.title"
     ng-click="AddFeedUrl(feed.link)")
-form(name="addFeed")
-  input.middle(
+form.middle(name="addFeed")
+  input(
     type="url"
     ng-model="feedSearch"
     ng-disabled="feedLoading")
   &nbsp;
-  button.middle(
-    ng-click="AddFeed()"
-    ng-disabled="!feedSearch||!addFeed.$valid").
-    Add feed
-  span.middle(ng-show="feedLoading") Loading...
-  span.middle(ng-show="feedError",ng-bind="feedError")
+  button(
+    ng-disabled="!feedSearch||!addFeed.$valid"
+    ng-click="AddFeed()") Add feed
+  span(ng-show="feedLoading") Loading...
+  span(ng-show="feedError",ng-bind="feedError")
 div.feed(ng-repeat="feed in feeds")
   h2
     a(target="_blank"

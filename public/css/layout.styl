@@ -41,6 +41,7 @@ button
 
 input
   margin 0
+  border 1px solid $border-color
 
 input:invalid
   border auto
@@ -48,3 +49,5 @@ input:invalid
 #title
   margin -35px 0 -16px -16px
   color $title-color
+  span
+    color lighten($title-color, 50%)
