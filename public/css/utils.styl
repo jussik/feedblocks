@@ -6,8 +6,11 @@ $remove-color = #F22
 $error-color = #F22
 $border-color = #BBB
 
+fade(color, amount)
+  rgba(red(color), green(color), blue(color), alpha(color) * amount)
+
 default-font()
-  font-size 16px
+  font-size inherit
   font-family Open Sans, sans-serif
 
 link(color)

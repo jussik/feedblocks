@@ -29,17 +29,27 @@ feedSchema = mongo.Schema
     summary: String
     link: String
   ]
+,
+  _id: false, id: false
 Feed = mongo.model "feed", feedSchema
 
 app.get '/api/feed/:url', (req, res) ->
   url = req.params.url
 
-  Feed.find url: url, (err, feeds) ->
-    onError = (err) ->
-      res.json error: err, url: url
+  onError = (phase, error) ->
+    fn = (error) ->
+      res.json error: error, phase: phase, url: url
 
+    # if called with error data, run it immediately
+    if error
+      fn error
+
+    # return error function
+    fn
+
+  Feed.find url: url, (err, feeds) ->
     if err
-      onError err
+      onError 'mongodb', err
       return
 
     if feeds.length
@@ -48,30 +58,37 @@ app.get '/api/feed/:url', (req, res) ->
 
     meta = null
     items = []
+    
+    try
+      request(url)
+        .on('error', onError 'request')
+        .pipe(new feed normalize: true)
+        .on('error', onError 'feedparser')
+        .on 'meta', (m) ->
+          meta = m
+        .on 'readable', ->
+          while item = do @read
+            items.push
+              title: item.title
+              summary: item.summary
+              link: item.link
+          return # do not return while expression
+        .on 'end', ->
+          if not meta
+            onError 'results', {}
+            return
 
-    request(url)
-      .on('error', onError)
-      .pipe(new feed normalize: true)
-      .on('error', onError)
-      .on 'meta', (m) ->
-        meta = m
-      .on 'readable', ->
-        while item = do @read
-          items.push
-            title: item.title
-            summary: item.summary
-            link: item.link
-        return # do not return while expression
-      .on 'end', ->
-        feed = new Feed
-          url: url
-          title: meta.title
-          link: meta.link
-          fetched: new Date
-          items: items
+          feed = new Feed
+            url: url
+            title: meta.title
+            link: meta.link
+            fetched: new Date
+            items: items
 
-        do feed.save
-        res.json feed
+          do feed.save
+          res.json feed
+    catch err
+      onError 'pre-request', err
 
 app.get '/views/:view', (req, res) ->
   res.render req.params.view

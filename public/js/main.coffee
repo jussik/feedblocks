@@ -10,6 +10,9 @@ angular.module('feedblocks')
   ,
     title:"Error test"
     link:"http://localhost:9999/doesnotexist"
+  ,
+    title: "Local test",
+    link: "http://localhost:8080/testrss.xml"
   ]
 
   $scope.AddFeed = ->

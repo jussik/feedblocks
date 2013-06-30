@@ -22,7 +22,7 @@ div.feed(ng-repeat="feed in feeds")
       ng-href="{{feed.link}}"
       ng-bind-html-unsafe="feed.title")
     &nbsp;
-    a.remove(href,ng-click="feeds.splice($index,1)") &times;
+    button.remove(href,ng-click="feeds.splice($index,1)") &times;
   div.item(ng-repeat="item in feed.items")
     h3
       a(target="_blank"
