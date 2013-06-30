@@ -1,0 +1,34 @@
+doctype html
+div Popular feeds:
+  a.popular(
+    href
+    target="_blank"
+    ng-repeat="feed in popular"
+    ng-bind="feed.title"
+    ng-click="AddFeedUrl(feed.link)")
+form(name="addFeed")
+  input.middle(
+    type="url"
+    ng-model="feedSearch"
+    ng-disabled="feedLoading")
+  &nbsp;
+  button.middle(
+    ng-click="AddFeed()"
+    ng-disabled="!feedSearch||!addFeed.$valid").
+    Add feed
+  span.middle(ng-show="feedLoading") Loading...
+  span.middle(ng-show="feedError",ng-bind="feedError")
+div.feed(ng-repeat="feed in feeds")
+  h2
+    a(target="_blank"
+      ng-hide="feed.error"
+      ng-href="{{feed.link}}"
+      ng-bind-html-unsafe="feed.title")
+    &nbsp;
+    a.remove(href,ng-click="feeds.splice($index,1)") &times;
+  div.item(ng-repeat="item in feed.items")
+    h3
+      a(target="_blank"
+        ng-href="{{item.link}}"
+        ng-bind-html-unsafe="item.title")
+    p(ng-bind-html-unsafe="item.summary")

@@ -1,18 +1,5 @@
-angular.module('feedblocks', ['ngResource'])
-.config ($locationProvider, $routeProvider) ->
-  $locationProvider.html5Mode true
-
-  $routeProvider
-    .when('/',
-      templateUrl: '/views/index'
-      controller: 'Index'
-    )
-    .otherwise(templateUrl: '/views/error')
-
-.factory 'Feed', ($resource) ->
-  $resource '/api/feed/:url'
-
-.controller 'Index', ($scope, Feed) ->
+angular.module('feedblocks')
+.controller 'Main', ($scope, $timeout, Feed) ->
   $scope.feeds = []
   $scope.popular = [
     title:"Rock, Paper, Shotgun"
@@ -20,6 +7,22 @@ angular.module('feedblocks', ['ngResource'])
   ,
     title:"Ars Technica"
     link:"http://feeds.arstechnica.com/arstechnica/index"
+  ,
+    title:"Error test"
+    link:"http://localhost:9999/doesnotexist"
   ]
-  $scope.AddFeed = (url) ->
-    $scope.feeds.push(Feed.get url: url)
+
+  $scope.AddFeed = ->
+    $scope.AddFeedUrl $scope.feedSearch
+    $scope.feedSearch = ""
+
+  $scope.AddFeedUrl = (url) ->
+    $scope.feedLoading = true
+    Feed.get url: url, (feed) ->
+      if feed.error
+        $scope.feedError = "Could not fetch feed"
+      else
+        $scope.feeds.push feed
+      $timeout (-> delete $scope.feedError), 1000
+      $scope.feedLoading = false
+

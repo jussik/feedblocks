@@ -1,0 +1,50 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:100)
+@import url(http://fonts.googleapis.com/css?family=Open\+Sans:300)
+
+@import "utils"
+
+html
+  default-font()
+  color $color
+  background-color $bg-color
+
+body
+  margin 10px
+
+h1, h2, h3, h4
+  font-family Roboto, sans-serif
+  font-weight 100
+  margin 0
+
+h1
+  font-size 500%
+
+h2
+  font-size 200%
+
+h3
+  font-size 130%
+
+a
+  link $link-color
+  text-decoration none
+
+button
+  display inline
+  default-font()
+  margin 0
+  padding 0
+  background none
+  border none
+  cursor pointer
+  link $link-color
+
+input
+  margin 0
+
+input:invalid
+  border auto
+
+#title
+  margin -35px 0 -16px -16px
+  color $title-color

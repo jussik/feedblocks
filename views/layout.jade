@@ -3,11 +3,14 @@ html(ng-app="feedblocks")
   head
     title Feedblocks
     base(href="/")
+    link(rel="stylesheet",href="css/layout.css")
     link(rel="stylesheet",href="css/main.css")
   body
-    h1 Feedblocks
-    div(ng-view)
+    h1#title Feedblocks
+    div#view(ng-view)
     script(src="js/libs/jquery.js")
     script(src="js/libs/angular.js")
     script(src="js/libs/angular-resource.js")
+    script(src="js/feedblocks.js")
+    script(src="js/utils.js")
     script(src="js/main.js")

@@ -1,0 +1,19 @@
+$color = #000
+$bg-color = #FFF
+$title-color = #DDD
+$link-color = #6AD
+$remove-color = #F22
+$error-color = #F22
+
+default-font()
+  font-size 16px
+  font-family Open Sans, sans-serif
+
+link(color)
+  color color
+  cursor pointer
+  &:hover
+    color darken(@color, 25%)
+  &.disabled, &:disabled
+    cursor default
+    color lighten(@color, 50%)

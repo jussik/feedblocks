@@ -17,10 +17,13 @@ app.use express.static pub
 app.get '/api/feed/:url', (req, res) ->
   meta = null
   items = []
+  onError = (err) ->
+    res.json error: err, url: req.params.url
+
   request(req.params.url)
+    .on('error', onError)
     .pipe(new feed normalize: true)
-    .on 'error', (err) ->
-      res.json error: err
+    .on('error', onError)
     .on 'meta', (m) ->
       meta = m
     .on 'readable', () ->
