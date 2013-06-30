@@ -2,8 +2,8 @@ express = require "express"
 coffee = require "connect-coffee-script"
 mongo = require "mongoose"
 stylus = require "stylus"
-feed = require "feedparser"
 request = require "request"
+FeedParser = require "feedparser"
 
 app = express()
 pub = __dirname + "/public"
@@ -20,17 +20,18 @@ mongo.connection.on 'error', (err) ->
   console.error 'Mongo error', err
 
 feedSchema = mongo.Schema
-  url: String
+  url: { type: String, unique: true }
   title: String
   link: String
   fetched: { type: Date, expires: '30m' }
   items: [
+    _id: false
     title: String
     summary: String
     link: String
   ]
 ,
-  _id: false, id: false
+  _id: false
 Feed = mongo.model "feed", feedSchema
 
 app.get '/api/feed/:url', (req, res) ->
@@ -47,13 +48,13 @@ app.get '/api/feed/:url', (req, res) ->
     # return error function
     fn
 
-  Feed.find url: url, (err, feeds) ->
+  Feed.findOne {url: url}, {_id: 0, __v: 0}, (err, feed) ->
     if err
       onError 'mongodb', err
       return
 
-    if feeds.length
-      res.json feeds[0]
+    if feed
+      res.json feed
       return
 
     meta = null
@@ -62,7 +63,7 @@ app.get '/api/feed/:url', (req, res) ->
     try
       request(url)
         .on('error', onError 'request')
-        .pipe(new feed normalize: true)
+        .pipe(new FeedParser normalize: true)
         .on('error', onError 'feedparser')
         .on 'meta', (m) ->
           meta = m
@@ -87,8 +88,9 @@ app.get '/api/feed/:url', (req, res) ->
 
           do feed.save
           res.json feed
-    catch err
-      onError 'pre-request', err
+    catch e
+      onError 'pre-request', e.toString()
+      throw e
 
 app.get '/views/:view', (req, res) ->
   res.render req.params.view
