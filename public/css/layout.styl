@@ -1,5 +1,23 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:100)
-@import url(http://fonts.googleapis.com/css?family=Open\+Sans:300)
+//@import url(http://fonts.googleapis.com/css?family=Roboto:100)
+//@import url(http://fonts.googleapis.com/css?family=Open\+Sans:300)
+
+
+@font-face
+    font-family Roboto
+    font-weight 100
+    src url(font/Roboto-Thin.ttf)
+
+openSansFace(weight, style, name)
+    @font-face
+        font-family Open Sans
+        font-weight weight
+        font-style style
+        src 'url(font/OpenSans-%s.ttf)' % name
+
+openSansFace(300, normal, Light)
+openSansFace(300, italic, LightItalic)
+openSansFace(600, normal, Semibold)
+openSansFace(600, italic, SemiboldItalic)
 
 @import "utils"
 
